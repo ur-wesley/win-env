@@ -147,6 +147,7 @@ bars:
         - bluetooth
         - battery
         - volume
+        - notifications
         - systray
         - power_menu
         - control_center
