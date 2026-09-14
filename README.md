@@ -5,7 +5,7 @@ LeopardWM tiling + YASB status bar for Windows.
 ## Setup
 
 ```powershell
-git clone <repo-url> "$env:APPDATA\leopardwm"
+git clone https://github.com/ur-wesley/win-env.git "$env:APPDATA\leopardwm"
 cd "$env:APPDATA\leopardwm"
 powershell -ExecutionPolicy Bypass -File .\setup.ps1
 ```
