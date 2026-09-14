@@ -64,6 +64,20 @@ function Remove-RunKey([string]$Name) {
     Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name $Name -ErrorAction SilentlyContinue
 }
 
+function Ensure-Leopardwm {
+    if (-not (Get-Command lwm -ErrorAction SilentlyContinue)) { return }
+    $ok = $false
+    try { $null = lwm query workspace 2>$null; $ok = $LASTEXITCODE -eq 0 } catch { }
+    if ($ok) { return }
+    $exe = "${env:ProgramFiles}\LeopardWM\bin\leopardwm.exe"
+    if (-not (Test-Path $exe)) { return }
+    Start-Process $exe
+    foreach ($i in 1..10) {
+        Start-Sleep -Milliseconds 500
+        try { $null = lwm query workspace 2>$null; if ($LASTEXITCODE -eq 0) { return } } catch { }
+    }
+}
+
 Ensure-WingetPackage 'jcardama.LeopardWM'
 Ensure-WingetPackage 'AmN.yasb'
 Sync-RepoToTarget
@@ -82,7 +96,12 @@ $startBar = Join-Path $RepoRoot 'bar\start-bar.ps1'
 Set-RunKey 'LeopardWM-Bar' "powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$startBar`""
 Remove-RunKey 'YASB'
 
-& (Join-Path $RepoRoot 'bar\hide-taskbar.ps1')
+Ensure-Leopardwm
+$prevEap = $ErrorActionPreference
+$ErrorActionPreference = 'Continue'
+try { & (Join-Path $RepoRoot 'bar\hide-taskbar.ps1') } catch { }
+$ErrorActionPreference = $prevEap
+Ensure-Leopardwm
 
 if ($PatchCalendar) {
     & (Join-Path $RepoRoot 'bar\patch-yasb-calendar-weeks.ps1')
