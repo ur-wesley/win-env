@@ -12,6 +12,14 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1
 
 `setup.ps1` installs LeopardWM and YASB via winget, links YASB config into `%USERPROFILE%\.config\yasb`, wires autostart, and hides the Windows taskbar.
 
+## Remove
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\remove.ps1
+```
+
+Stops YASB and bar helpers, removes autostart entries, drops the YASB junction (restores `~\.config\yasb.bak` if present), and shows the Windows taskbar. Does not uninstall packages or delete config files. Add `-StopLeopardwm` to also stop the tiling daemon.
+
 Optional ISO week numbers in YASB calendar (needs admin + Python):
 
 ```powershell
