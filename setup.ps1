@@ -27,10 +27,10 @@ function Sync-RepoToTarget {
 }
 
 function Rewrite-YasbPaths([string]$ConfigPath) {
-    $appData = $env:APPDATA -replace '\\', '\\'
+    $escaped = $env:APPDATA.Replace('\', '\\')
     $text = Get-Content $ConfigPath -Raw
-    $text = $text -replace '\{\{APPDATA\}\}', $env:APPDATA
-    $text = $text -replace 'C:\\Users\\[^\\]+\\AppData\\Roaming', $appData
+    $text = $text -replace '\{\{APPDATA\}\}', $escaped
+    $text = $text -replace 'C:\\Users\\[^\\]+\\AppData\\Roaming', $escaped
     Set-Content -Path $ConfigPath -Value $text -NoNewline
 }
 

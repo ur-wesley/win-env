@@ -225,9 +225,9 @@ widgets:
         run_interval: 500
         return_format: json
       callbacks:
-        on_left: exec powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{{APPDATA}}\leopardwm\bar\lwm-ws-cycle.ps1" prev
+        on_left: exec powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{{APPDATA}}\\leopardwm\\bar\\lwm-ws-cycle.ps1" prev
         on_middle: exec lwm toggle-overview
-        on_right: exec powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{{APPDATA}}\leopardwm\bar\lwm-ws-cycle.ps1" next
+        on_right: exec powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{{APPDATA}}\\leopardwm\\bar\\lwm-ws-cycle.ps1" next
 
   leopardwm_strip:
     type: yasb.custom.CustomWidget
