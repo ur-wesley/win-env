@@ -1,0 +1,652 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/amnweb/yasb/main/schema.json
+
+watch_stylesheet: true
+watch_config: true
+debug: false
+update_check: true
+
+tooltip:
+  offset: 6
+  blur_effect:
+    enabled: true
+    dark_mode: true
+    round_corners: true
+    round_corners_type: normal
+    border_color: None
+
+bars:
+  lwm-left:
+    enabled: true
+    screens:
+      - primary
+    class_name: yasb-bar lwm-bar-left
+    style: adaptive
+    alignment:
+      position: top
+      align: left
+    animation:
+      enabled: true
+      duration: 250
+    blur_effect:
+      enabled: false
+    window_flags:
+      always_on_top: true
+      windows_app_bar: false
+    dimensions:
+      width: 40%
+      height: 32
+    padding:
+      top: 4
+      left: 6
+      bottom: 2
+      right: 6
+    layouts:
+      left:
+        alignment: left
+        stretch: false
+      center:
+        alignment: center
+        stretch: true
+      right:
+        alignment: right
+        stretch: false
+    widgets:
+      left:
+        - leopardwm_ws_grouper
+        - leopardwm_title
+        - leopardwm_strip
+      center: []
+      right:
+        - pomodoro
+        - media
+
+  lwm-center:
+    enabled: true
+    screens:
+      - primary
+    class_name: yasb-bar lwm-bar-center
+    style: adaptive
+    alignment:
+      position: top
+      align: center
+    animation:
+      enabled: true
+      duration: 250
+    blur_effect:
+      enabled: false
+    window_flags:
+      always_on_top: true
+      windows_app_bar: false
+    dimensions:
+      width: 168
+      height: 32
+    padding:
+      top: 4
+      left: 4
+      bottom: 2
+      right: 4
+    layouts:
+      left:
+        alignment: left
+        stretch: true
+      center:
+        alignment: center
+        stretch: false
+      right:
+        alignment: right
+        stretch: true
+    widgets:
+      left: []
+      center:
+        - clock
+      right: []
+
+  lwm-right:
+    enabled: true
+    screens:
+      - primary
+    class_name: yasb-bar lwm-bar-right
+    style: adaptive
+    alignment:
+      position: top
+      align: right
+    animation:
+      enabled: true
+      duration: 250
+    blur_effect:
+      enabled: false
+    window_flags:
+      always_on_top: true
+      windows_app_bar: false
+    dimensions:
+      width: 42%
+      height: 32
+    padding:
+      top: 4
+      left: 0
+      bottom: 2
+      right: 6
+    layouts:
+      left:
+        alignment: left
+        stretch: true
+      center:
+        alignment: center
+        stretch: true
+      right:
+        alignment: right
+        stretch: false
+    widgets:
+      left: []
+      center: []
+      right:
+        - traffic
+        - memory
+        - cpu
+        - wifi
+        - bluetooth
+        - battery
+        - volume
+        - systray
+        - power_menu
+        - control_center
+
+widgets:
+  leopardwm_ws_grouper:
+    type: yasb.grouper.GrouperWidget
+    options:
+      class_name: leopardwm-ws-grouper
+      widgets:
+        - leopardwm_ws_browser
+        - leopardwm_ws_main
+        - leopardwm_ws_misc
+      collapse_options:
+        enabled: false
+
+  leopardwm_ws_browser:
+    type: yasb.custom.CustomWidget
+    options:
+      label: "{data[ws1_label]}"
+      class_name: "leopardwm-ws"
+      tooltip: true
+      tooltip_label: "browser"
+      exec_options:
+        run_cmd: "{{APPDATA}}\\leopardwm\\bar\\read-status.cmd"
+        run_interval: 500
+        return_format: json
+      callbacks:
+        on_left: exec lwm workspace 1
+        on_middle: exec lwm toggle-overview
+        on_right: exec lwm toggle-overview
+
+  leopardwm_ws_main:
+    type: yasb.custom.CustomWidget
+    options:
+      label: "{data[ws2_label]}"
+      class_name: "leopardwm-ws"
+      tooltip: true
+      tooltip_label: "main"
+      exec_options:
+        run_cmd: "{{APPDATA}}\\leopardwm\\bar\\read-status.cmd"
+        run_interval: 500
+        return_format: json
+      callbacks:
+        on_left: exec lwm workspace 2
+        on_middle: exec lwm toggle-overview
+        on_right: exec lwm toggle-overview
+
+  leopardwm_ws_misc:
+    type: yasb.custom.CustomWidget
+    options:
+      label: "{data[ws3_label]}"
+      class_name: "leopardwm-ws"
+      tooltip: true
+      tooltip_label: "misc"
+      exec_options:
+        run_cmd: "{{APPDATA}}\\leopardwm\\bar\\read-status.cmd"
+        run_interval: 500
+        return_format: json
+      callbacks:
+        on_left: exec lwm workspace 3
+        on_middle: exec lwm toggle-overview
+        on_right: exec lwm toggle-overview
+
+  leopardwm_title:
+    type: yasb.custom.CustomWidget
+    options:
+      label: "{data[app]}"
+      label_placeholder: "desktop"
+      label_max_length: 10
+      class_name: leopardwm-title
+      tooltip: true
+      tooltip_label: "{data[windows_tip]}"
+      exec_options:
+        run_cmd: "{{APPDATA}}\\leopardwm\\bar\\read-status.cmd"
+        run_interval: 500
+        return_format: json
+      callbacks:
+        on_left: exec powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{{APPDATA}}\leopardwm\bar\lwm-ws-cycle.ps1" prev
+        on_middle: exec lwm toggle-overview
+        on_right: exec powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{{APPDATA}}\leopardwm\bar\lwm-ws-cycle.ps1" next
+
+  leopardwm_strip:
+    type: yasb.custom.CustomWidget
+    options:
+      label: "{data[column_ui]}"
+      class_name: leopardwm-strip
+      tooltip: true
+      tooltip_label: "col {data[column_ui]}/{data[columns]} · {data[windows]} windows"
+      exec_options:
+        run_cmd: "{{APPDATA}}\\leopardwm\\bar\\read-status.cmd"
+        run_interval: 500
+        return_format: json
+      callbacks:
+        on_left: exec lwm focus left
+        on_middle: exec lwm toggle-overview
+        on_right: exec lwm focus right
+
+  clock:
+    type: yasb.clock.ClockWidget
+    options:
+      label: "{%a %d.%m · %H:%M}"
+      label_alt: "{%A, %d. %B %Y · %H:%M:%S}"
+      locale: de_DE
+      calendar:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: center
+        direction: down
+        offset_top: 10
+        country_code: DE
+        show_holidays: true
+        show_week_numbers: true
+        show_years: true
+        extended: true
+        holiday_color: "#fca5a5"
+      callbacks:
+        on_left: toggle_calendar
+        on_middle: toggle_label
+        on_right: context_menu
+
+  pomodoro:
+    type: yasb.pomodoro.PomodoroWidget
+    options:
+      class_name: pomodoro-widget
+      label: "<span class=\"icon\">{icon}</span> {remaining}"
+      label_alt: "<span class=\"icon\">{icon}</span> {session}/{total_sessions}"
+      work_duration: 25
+      break_duration: 5
+      long_break_duration: 15
+      long_break_interval: 4
+      auto_start_breaks: false
+      auto_start_work: false
+      sound_notification: true
+      show_notification: true
+      session_target: 0
+      hide_on_break: false
+      icons:
+        work: "\uE121"
+        break: "\uE769"
+        paused: "\uE769"
+      menu:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+        offset_top: 10
+        circle_background_color: rgba(255, 255, 255, 0.04)
+        circle_work_progress_color: "#86efac"
+        circle_break_progress_color: "#93c5fd"
+        circle_thickness: 5
+        circle_size: 132
+      callbacks:
+        on_left: toggle_menu
+        on_middle: toggle_timer
+        on_right: toggle_label
+
+  media:
+    type: yasb.media.MediaWidget
+    options:
+      class_name: media-compact
+      label: "{title}\n{artist}"
+      label_alt: "{title}"
+      separator: ""
+      hide_empty: true
+      show_thumbnail: false
+      controls_only: false
+      controls_left: true
+      controls_hide: false
+      max_field_size:
+        label: 28
+        label_alt: 32
+        truncate_whole_label: false
+      icons:
+        prev_track: "\uE892"
+        next_track: "\uE893"
+        play: "\uF5B0"
+        pause: "\uE62E"
+      media_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+        offset_top: 10
+        thumbnail_size: 120
+        thumbnail_corner_radius: 14
+        max_title_size: 48
+        max_artist_size: 36
+        max_source_size: 20
+        show_source: true
+        show_volume_slider: true
+      media_menu_icons:
+        play: "\uF5B0"
+        pause: "\uE62E"
+        prev_track: "\uE892"
+        next_track: "\uE893"
+        mute: "\uE994"
+        unmute: "\uE74F"
+      callbacks:
+        on_left: toggle_media_menu
+        on_middle: do_nothing
+        on_right: toggle_label
+
+  memory:
+    type: yasb.memory.MemoryWidget
+    options:
+      label: "<span>\uEEA0</span> {virtual_mem_used}/{virtual_mem_total}"
+      label_alt: "<span>\uEEA0</span> {virtual_mem_percent}%"
+      update_interval: 2000
+      callbacks:
+        on_left: toggle_label
+        on_right: toggle_menu
+      menu:
+        enabled: true
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+
+  cpu:
+    type: yasb.cpu.CpuWidget
+    options:
+      label: "<span>\uE950</span> {info[percent][total]}%"
+      label_alt: "<span>\uE950</span> {info[freq][current]} MHz"
+      update_interval: 2000
+      callbacks:
+        on_left: toggle_label
+        on_right: exec cmd /c Taskmgr
+
+  wifi:
+    type: yasb.wifi.WifiWidget
+    options:
+      label: "{wifi_icon}"
+      label_alt: "<span class=\"icon\">{wifi_icon}</span> {wifi_name}"
+      update_interval: 2000
+      ethernet_label: "{wifi_icon}"
+      ethernet_label_alt: "{wifi_icon} {ip_addr}"
+      ethernet_icon: "\uE839"
+      wifi_icons:
+        - "\uE701"
+        - "\uE872"
+        - "\uE873"
+        - "\uE874"
+        - "\uE874"
+      callbacks:
+        on_left: toggle_menu
+        on_middle: exec cmd.exe /c start ms-settings:network
+        on_right: toggle_label
+      menu_config:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+        offset_top: 10
+        wifi_icons_secured:
+          - "\uE670"
+          - "\uE671"
+          - "\uE672"
+          - "\uE673"
+        wifi_icons_unsecured:
+          - "\uEC3C"
+          - "\uEC3D"
+          - "\uEC3E"
+          - "\uEC3F"
+
+  bluetooth:
+    type: yasb.bluetooth.BluetoothWidget
+    options:
+      label: "<span class=\"icon\">{icon}</span>"
+      label_alt: "<span class=\"icon\">{icon}</span> {device_count}"
+      tooltip: true
+      icons:
+        bluetooth_on: "\uE702"
+        bluetooth_off: "\uE702"
+        bluetooth_connected: "\uE702"
+      callbacks:
+        on_left: toggle_menu
+        on_middle: exec cmd.exe /c start ms-settings:bluetooth
+        on_right: toggle_label
+      menu_config:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+        offset_top: 10
+
+  battery:
+    type: yasb.battery.BatteryWidget
+    options:
+      label: "<span class=\"icon\">{icon}</span> {percent}%"
+      label_alt: "<span class=\"icon\">{icon}</span> {percent}% · {time_remaining}"
+      update_interval: 5000
+      hide_unsupported: true
+      charging_options:
+        icon_format: "{charging_icon}"
+        blink_charging_icon: true
+        blink_interval: 500
+      status_icons:
+        icon_charging: "\uEA93"
+        icon_critical: "\uE850"
+        icon_low: "\uE851"
+        icon_medium: "\uE853"
+        icon_high: "\uE857"
+        icon_full: "\uE859"
+      callbacks:
+        on_left: toggle_label
+        on_middle: exec cmd.exe /c start ms-settings:batterysaver
+        on_right: exec cmd.exe /c start ms-settings:powersleep
+
+  traffic:
+    type: yasb.traffic.TrafficWidget
+    options:
+      label: "<span>\uEAB4</span> {download_speed}/{upload_speed}"
+      label_alt: "<span>\uEAB7</span> {today_downloaded}/{today_uploaded}"
+      speed_unit: bytes
+      update_interval: 1000
+      callbacks:
+        on_left: toggle_menu
+        on_middle: exec cmd.exe /c start ms-settings:network
+        on_right: toggle_label
+      menu:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+
+  volume:
+    type: yasb.volume.VolumeWidget
+    options:
+      label: "<span>{icon}</span>"
+      label_alt: "<span>{icon}</span> {level}%"
+      tooltip: true
+      icons:
+        muted: "\uE74F"
+        "10": "\uE992"
+        "30": "\uE993"
+        "60": "\uE994"
+        "100": "\uE995"
+      callbacks:
+        on_left: toggle_volume_menu
+        on_right: toggle_mute
+      audio_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+        show_apps: true
+
+  notifications:
+    type: yasb.notifications.NotificationsWidget
+    options:
+      class_name: notification-widget
+      label: "<span class=\"icon\">{icon}</span>"
+      label_alt: "<span class=\"icon\">{icon}</span> {count}"
+      hide_empty: false
+      tooltip: true
+      icons:
+        new: "\uE7ED"
+        default: "\uE7ED"
+      callbacks:
+        on_left: toggle_notification
+        on_middle: toggle_label
+        on_right: clear_notifications
+
+  systray:
+    type: yasb.systray.SystrayWidget
+    options:
+      class_name: systray
+      icon_size: 14
+      pin_click_modifier: alt
+      show_unpinned: true
+      show_in_popup: true
+      icons_per_row: 6
+      use_hook: true
+      popup:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+
+  power_menu:
+    type: yasb.power_menu.PowerMenuWidget
+    options:
+      label: "<span>\uE712</span>"
+      uptime: false
+      show_user: false
+      menu_style: popup
+      popup:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+        offset_top: 10
+      buttons:
+        lock:
+          - "\uE72E"
+          - Sperren
+        signout:
+          - "\uE7E8"
+          - Abmelden
+        sleep:
+          - "\uE7E3"
+          - Ruhezustand
+        restart:
+          - "\uE777"
+          - Neu starten
+        shutdown:
+          - "\uE7E8"
+          - Herunterfahren
+        cancel:
+          - ""
+          - Abbrechen
+
+  control_center:
+    type: yasb.control_center.ControlCenterWidget
+    options:
+      label: "<span>\uE713</span>"
+      tooltip: true
+      sections_order:
+        - system_controls
+        - quick_actions
+        - sliders
+        - power
+        - media
+      popup:
+        blur: true
+        round_corners: true
+        round_corners_type: normal
+        alignment: right
+        direction: down
+        offset_top: 10
+      sections:
+        system_controls:
+          show: true
+          profile_image_size: 36
+          power_icon: "\uE7E8"
+          lock_icon: "\uE72E"
+          settings_icon: "\uE713"
+        quick_actions:
+          show: true
+          columns: 4
+          label_position: default
+          actions:
+            - id: toggle_dnd
+              label: Fokus
+              icon: "\uf285"
+            - id: cycle_dnd
+              label: Fokus Modus
+              icon: "\uE7F4"
+            - id: toggle_mute
+              label: Stumm
+              icon: "\ue74f"
+            - id: toggle_mic_mute
+              label: Mikrofon
+              icon: "\uF12E"
+            - id: toggle_theme
+              label: Design
+              icon: "\uE708"
+            - id: screenshot
+              label: Screenshot
+              icon: "\uE91B"
+            - id: touch_keyboard
+              label: Tastatur
+              icon: "\uE765"
+        sliders:
+          show: true
+          brightness:
+            show_slider: true
+            icon: "\uE706"
+            show_source_selector: true
+            source_selector_icon: "\uE972"
+          volume:
+            show_slider: true
+            icon: "\uE767"
+            show_source_selector: true
+            source_selector_icon: "\uE972"
+          microphone:
+            show_slider: true
+            icon: "\uE720"
+            show_source_selector: true
+            source_selector_icon: "\uE972"
+        media:
+          show: true
+          thumbnail_size: 56
+          thumbnail_radius: 12
+          icons:
+            prev_track: "\uE892"
+            next_track: "\uE893"
+            play: "\uF5B0"
+            pause: "\uE62E"
+        power:
+          show: true
+          power_plan_title: Energieschema
+          power_mode_title: Energiemodus
+          button_menu_icon: "\uE76C"
+      callbacks:
+        on_left: toggle_menu

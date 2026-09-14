@@ -1,0 +1,215 @@
+# LeopardWM Configuration — fullscreen strip
+# https://github.com/jcardama/LeopardWM
+#
+# Copy to %APPDATA%\leopardwm\config\config.toml then reload
+# (Ctrl+Alt+Shift+R) or run install.ps1.
+
+[layout]
+# Full-height columns; width 50% / 75% / 100%.
+gap = 0
+outer_gap_left = 0
+outer_gap_right = 0
+outer_gap_top = 36
+outer_gap_bottom = 0
+
+width_presets = [0.5, 0.75, 1.0]
+default_width_preset = 3
+height_presets = [0.5, 0.75, 1.0]
+
+# Focused column fills the viewport (same look as maximize-column).
+centering_mode = "center"
+
+[appearance]
+
+[behavior]
+focus_new_windows = true
+track_focus_changes = true
+log_level = "info"
+focus_follows_mouse = false
+disable_snap_layouts = true
+new_window_placement = "new_column"
+hide_offscreen_taskbar_buttons = true
+workspace_edge_wrap = false
+mouse_follows_focus = false
+fullscreen_follows_focus = true
+swap_chain_ghost_animation = true
+
+[hotkeys]
+scroll_modifier = "Ctrl+Alt"
+
+# Stop defaults merge from stealing Shift+arrows (workspace_prev/next)
+disabled = [
+  "workspace_prev",
+  "workspace_next",
+  "switch_workspace_4",
+  "switch_workspace_5",
+  "switch_workspace_6",
+  "switch_workspace_7",
+  "switch_workspace_8",
+  "switch_workspace_9",
+  "move_to_workspace_1",
+  "move_to_workspace_2",
+  "move_to_workspace_3",
+  "move_to_workspace_4",
+  "move_to_workspace_5",
+  "move_to_workspace_6",
+  "move_to_workspace_7",
+  "move_to_workspace_8",
+  "move_to_workspace_9",
+]
+
+# Focus — Ctrl+Alt horizontal; Up/Down/K/J via bar helper (3-strip clamp).
+# Reorder Up/Down/K/J (Shift) also via bar helper — stack then move to adjacent strip.
+"Alt+Tab" = "toggle_overview"
+"Ctrl+Alt+Left" = "focus_left"
+"Ctrl+Alt+Right" = "focus_right"
+"Ctrl+Alt+H" = "focus_left"
+"Ctrl+Alt+L" = "focus_right"
+"Ctrl+Alt+Home" = "focus_start"
+"Ctrl+Alt+End" = "focus_end"
+
+# Reorder — Ctrl+Alt+Shift + arrows / HJKL (Up/Down/K/J via bar helper)
+"Ctrl+Alt+Shift+Left" = "move_column_left"
+"Ctrl+Alt+Shift+Right" = "move_column_right"
+"Ctrl+Alt+Shift+H" = "move_column_left"
+"Ctrl+Alt+Shift+L" = "move_column_right"
+"Ctrl+Alt+Shift+Home" = "move_column_to_start"
+"Ctrl+Alt+Shift+End" = "move_column_to_end"
+
+# Pop window out to new column
+"Ctrl+Alt+Shift+Q" = "expel_to_left"
+"Ctrl+Alt+Shift+E" = "expel_to_right"
+
+# Stack neighbor into focused column
+"Ctrl+Alt+Shift+," = "consume_from_left"
+"Ctrl+Alt+Shift+." = "consume_from_right"
+
+# Resize — Ctrl+Alt + WASD
+"Ctrl+Alt+A" = "cycle_width_down"
+"Ctrl+Alt+D" = "cycle_width_up"
+"Ctrl+Alt+W" = "cycle_height_up"
+"Ctrl+Alt+S" = "cycle_height_down"
+"Ctrl+Alt+Shift+0" = "equalize_heights"
+"Ctrl+Alt+0" = "equalize_widths"
+
+# Monitor focus (comma/period + arrows)
+"Ctrl+Alt+Win+," = "focus_monitor_left"
+"Ctrl+Alt+Win+." = "focus_monitor_right"
+"Ctrl+Alt+Win+Left" = "focus_monitor_left"
+"Ctrl+Alt+Win+Right" = "focus_monitor_right"
+"Ctrl+Alt+Win+Up" = "focus_monitor_up"
+"Ctrl+Alt+Win+Down" = "focus_monitor_down"
+
+# Move window to monitor (comma/period + arrows)
+"Ctrl+Alt+Win+Shift+," = "move_to_monitor_left"
+"Ctrl+Alt+Win+Shift+." = "move_to_monitor_right"
+"Ctrl+Alt+Win+Shift+Left" = "move_to_monitor_left"
+"Ctrl+Alt+Win+Shift+Right" = "move_to_monitor_right"
+"Ctrl+Alt+Win+Shift+Up" = "move_to_monitor_up"
+"Ctrl+Alt+Win+Shift+Down" = "move_to_monitor_down"
+
+# Column layout
+"Ctrl+Alt+C" = "center_column"
+"Ctrl+Alt+M" = "maximize_column"
+
+# Window
+"Ctrl+Alt+X" = "close_window"
+"Ctrl+Alt+F" = "toggle_floating"
+"Ctrl+Alt+Shift+F" = "toggle_fullscreen"
+"Ctrl+Alt+T" = "toggle_tabbed"
+"Ctrl+Alt+`" = "scratchpad_toggle"
+"Ctrl+Alt+Shift+`" = "scratchpad_stash"
+"Ctrl+Alt+Y" = "toggle_sticky"
+
+# Session
+"Ctrl+Alt+P" = "toggle_pause"
+# Ctrl+Alt+R = retile focused window (bar helper; fixes Electron offset)
+"Ctrl+Alt+Shift+R" = "reload"
+"Win+Ctrl+Escape" = "panic_revert"
+
+# Workspaces — browser (top) / main / misc (bottom)
+"Ctrl+Alt+Space" = "toggle_overview"
+"Ctrl+Alt+1" = "switch_workspace_1"
+"Ctrl+Alt+2" = "switch_workspace_2"
+"Ctrl+Alt+3" = "switch_workspace_3"
+
+[gestures]
+# Swipes handled by bar/lwm-hotkeys.ps1 (matches keyboard stack-then-strip nav)
+enabled = false
+
+[snap_hints]
+enabled = true
+duration_ms = 200
+opacity = 128
+
+[animation]
+layout_duration_ms = 150
+workspace_switch_duration_ms = 200
+scroll_duration_ms = 200
+overview_duration_ms = 150
+easing = "ease_out"
+reduce_motion_on_battery = true
+
+[overview]
+render = "live"
+
+[workspaces]
+names = ["browser", "main", "misc"]
+
+[[window_rules]]
+match_class = "MozillaDialogClass"
+corner_style = "square"
+
+[[window_rules]]
+match_executable = "zen.exe"
+open_on_workspace = 1
+
+[[window_rules]]
+match_executable = "vivaldi.exe"
+open_on_workspace = 1
+
+[[window_rules]]
+match_executable = "helium.exe"
+open_on_workspace = 1
+
+[[window_rules]]
+match_executable = "chrome.exe"
+match_title = ".*Helium.*"
+open_on_workspace = 1
+
+[[window_rules]]
+match_executable = "fastpotify.exe"
+open_on_workspace = 3
+
+[[window_rules]]
+match_executable = "Discord.exe"
+corner_style = "square"
+column_width = 1.0
+open_on_workspace = 3
+
+[[window_rules]]
+match_executable = "Cursor.exe"
+corner_style = "square"
+
+[[window_rules]]
+match_executable = "Zed.exe"
+match_class = "Zed::Window"
+match_title = "^$"
+action = "ignore"
+
+[[window_rules]]
+match_executable = "Zed.exe"
+open_on_workspace = 2
+
+[[window_rules]]
+match_executable = "okena.exe"
+corner_style = "square"
+open_on_workspace = 2
+
+[[window_rules]]
+match_executable = "lookapp.exe"
+action = "ignore"
+
+[[window_rules]]
+match_executable = "winharpoon.exe"
+action = "ignore"

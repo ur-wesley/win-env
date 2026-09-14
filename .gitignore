@@ -1,0 +1,6 @@
+bar/*.pid
+bar/*.log
+bar/status.json
+data/
+*.bck
+yasb/yasb.log

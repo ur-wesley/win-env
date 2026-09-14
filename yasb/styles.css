@@ -1,0 +1,1646 @@
+:root {
+    --bg: rgba(8, 8, 10, 0.96);
+    --fg: #f4f4f5;
+    --muted: #a1a1aa;
+    --dim: #71717a;
+    --line: rgba(255, 255, 255, 0.08);
+    --hover: rgba(255, 255, 255, 0.06);
+    --accent: #c4b5fd;
+    --accent-dim: #7c6fd6;
+    --ok: #86efac;
+    --warn: #fcd34d;
+    --hot: #fca5a5;
+    --entry-pad-y: 1px;
+    --entry-pad-x: 5px;
+    --popup-bg: rgba(18, 18, 22, 0.58);
+    --popup-border: rgba(255, 255, 255, 0.08);
+    --popup-radius: 22px;
+    --popup-card: rgba(255, 255, 255, 0.06);
+    --popup-hover: rgba(255, 255, 255, 0.10);
+    --ui: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+    --display: "Segoe UI Variable Display", "Segoe UI Variable Text", "Segoe UI", sans-serif;
+    --mono: "Cascadia Mono", "Segoe UI Variable Text", sans-serif;
+}
+
+* {
+    font-family: var(--ui);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    margin: 0;
+    padding: 0;
+}
+
+.widget .icon,
+.cpu-widget span,
+.memory-widget span,
+.traffic-widget span,
+.volume-widget span,
+.wifi-widget span,
+.wifi-widget .icon,
+.bluetooth-widget span,
+.battery-widget .label span.icon,
+.battery-widget .icon,
+.notification-widget span,
+.notification-widget .icon,
+.power-menu-widget span {
+    font-family: "Segoe Fluent Icons";
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.yasb-bar.adaptive {
+    background-color: var(--bg);
+    border: none;
+    padding: 0;
+    margin: 0;
+    -qproperty-railheight: 3;
+    -qproperty-islands: true;
+    -qproperty-islandradius: 10;
+    -qproperty-grouppadding: 2;
+    -qproperty-edgeradius: 0;
+    -qproperty-borderwidth: 1;
+    -qproperty-bordercolor: rgba(255, 255, 255, 0.1);
+}
+
+.yasb-bar.adaptive .widget {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 2px 6px;
+    margin: 0;
+    min-width: 0;
+}
+
+.yasb-bar.adaptive .widget:hover {
+    background-color: var(--hover);
+}
+
+.yasb-bar.adaptive .widget-container {
+    background-color: transparent;
+    min-width: 0;
+    padding: 0;
+}
+
+.yasb-bar.adaptive .widget .label {
+    padding: 0;
+}
+
+.container-left,
+.container-center,
+.container-right {
+    padding: 0 4px;
+    min-width: 0;
+}
+
+.leopardwm-ws-grouper .container {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    margin: 0;
+    padding: 1px 2px;
+}
+
+.leopardwm-ws-grouper {
+    padding: 0 6px 0 2px;
+    margin-right: 2px;
+}
+
+.leopardwm-ws,
+.leopardwm-ws-active {
+    min-width: 0;
+    padding: 0 1px;
+}
+
+.leopardwm-ws .widget-container,
+.leopardwm-ws-active .widget-container {
+    min-width: 0;
+}
+
+.leopardwm-ws .label,
+.leopardwm-ws-active .label {
+    padding: 0;
+    background: transparent;
+}
+
+.leopardwm-ws .label .ws-tab {
+    display: inline-block;
+    font-family: var(--ui);
+    color: #52525b;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 2px 8px 4px;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+}
+
+.leopardwm-ws .label .ws-tab-active {
+    font-family: var(--ui);
+    color: var(--fg);
+    border-bottom-color: var(--accent);
+}
+
+.leopardwm-ws:hover .label .ws-tab {
+    color: var(--dim);
+}
+
+.leopardwm-ws:hover .label .ws-tab-active {
+    color: var(--fg);
+}
+
+.pomodoro-widget {
+    min-width: 0;
+    border-left: 1px solid var(--line);
+    padding-left: 8px;
+    margin-left: 2px;
+}
+
+.pomodoro-widget .widget-container {
+    min-width: 0;
+}
+
+.pomodoro-widget .label,
+.pomodoro-widget .icon {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.pomodoro-widget .icon {
+    font-family: "Segoe Fluent Icons";
+    font-weight: 400;
+    margin-right: 2px;
+}
+
+.pomodoro-widget .label.work,
+.pomodoro-widget .icon.work {
+    color: var(--ok);
+}
+
+.pomodoro-widget .label.break,
+.pomodoro-widget .icon.break {
+    color: #93c5fd;
+}
+
+.pomodoro-widget .label.paused,
+.pomodoro-widget .icon.paused {
+    color: var(--dim);
+}
+
+.leopardwm-title {
+    min-width: 0;
+    padding: 0 8px;
+}
+
+.leopardwm-title .widget-container {
+    min-width: 0;
+}
+
+.leopardwm-title .label {
+    color: var(--muted);
+    font-family: var(--ui);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    max-width: 88px;
+}
+
+.leopardwm-strip {
+    min-width: 0;
+    padding: 0 4px;
+}
+
+.leopardwm-strip .widget-container {
+    min-width: 0;
+}
+
+.leopardwm-strip .label {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(196, 181, 253, 0.12);
+    border: 1px solid rgba(196, 181, 253, 0.18);
+    border-radius: 6px;
+    padding: 1px 6px;
+}
+
+.clock-widget {
+    background-color: transparent;
+    min-width: 0;
+}
+
+.clock-widget .widget-container {
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+}
+
+.clock-widget .label {
+    color: var(--fg);
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0;
+    margin: 0;
+}
+
+.clock-widget .label.alt {
+    color: var(--muted);
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+}
+
+.yasb-bar.lwm-bar-left.adaptive,
+.yasb-bar.lwm-bar-center.adaptive,
+.yasb-bar.lwm-bar-right.adaptive {
+    -qproperty-railheight: 3;
+    -qproperty-islands: true;
+    -qproperty-islandradius: 10;
+    -qproperty-grouppadding: 2;
+}
+
+.yasb-bar.lwm-bar-center.adaptive {
+    -qproperty-grouppadding: 0;
+    -qproperty-railheight: 0;
+}
+
+.yasb-bar.lwm-bar-center.adaptive .container-center {
+    min-height: 32px;
+    max-height: 32px;
+    padding: 0;
+}
+
+.yasb-bar.lwm-bar-center.adaptive .clock-widget {
+    padding: 0 8px;
+    min-height: 32px;
+    max-height: 32px;
+}
+
+.yasb-bar.lwm-bar-center.adaptive .clock-widget .widget-container {
+    min-height: 32px;
+    max-height: 32px;
+    padding: 0;
+}
+
+.yasb-bar.lwm-bar-center.adaptive .clock-widget .label,
+.yasb-bar.lwm-bar-center.adaptive .clock-widget .label.alt {
+    font-size: 15px;
+    min-height: 32px;
+    max-height: 32px;
+    padding: 0 2px;
+}
+
+.lwm-bar-left .container-left,
+.lwm-bar-left .container-right {
+    min-width: 0;
+}
+
+.lwm-bar-left.adaptive .container-left .widget {
+    padding: 2px 7px;
+}
+
+.lwm-bar-left.adaptive .container-right .widget {
+    padding: 2px 9px;
+}
+
+.lwm-bar-left.adaptive .container-right {
+    padding-left: 4px;
+}
+
+.lwm-bar-center .container-center,
+.lwm-bar-right .container-right {
+    min-width: 0;
+}
+
+.lwm-bar-right.adaptive .container-right .widget {
+    padding: 2px 10px;
+}
+
+.media-widget.media-compact {
+    min-width: 0;
+    padding: 1px 9px;
+    border-left: 1px solid var(--line);
+    margin-left: 2px;
+    padding-left: 10px;
+}
+
+.media-widget.media-compact .widget-container {
+    min-width: 0;
+    justify-content: flex-end;
+    gap: 2px;
+}
+
+.media-widget.media-compact .label {
+    color: var(--fg);
+    font-family: var(--ui);
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 160px;
+    max-width: 220px;
+    padding: 0 6px;
+    qproperty-alignment: 'AlignLeft | AlignVCenter';
+}
+
+.media-widget.media-compact .label.alt {
+    color: var(--muted);
+    font-family: var(--ui);
+    font-size: 11px;
+    font-weight: 500;
+    min-width: 160px;
+    max-width: 220px;
+}
+
+.media-widget.media-compact .btn {
+    color: var(--dim);
+    padding: 0 3px;
+    margin: 0;
+    font-family: "Segoe Fluent Icons";
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.media-widget.media-compact .btn:hover {
+    color: var(--fg);
+}
+
+.media-widget.media-compact .btn.play {
+    font-size: 14px;
+    color: var(--muted);
+    padding: 0 4px;
+}
+
+.media-widget.media-compact .btn.disabled,
+.media-widget.media-compact .btn.disabled:hover {
+    color: #52525b;
+    background-color: transparent;
+}
+
+.memory-widget,
+.cpu-widget,
+.wifi-widget,
+.bluetooth-widget,
+.battery-widget,
+.volume-widget,
+.notification-widget {
+    min-width: 0;
+}
+
+.traffic-widget {
+    min-width: 228px;
+    max-width: 228px;
+    padding: 1px 13px 1px 5px;
+}
+
+.memory-widget .widget-container,
+.cpu-widget .widget-container,
+.wifi-widget .widget-container,
+.bluetooth-widget .widget-container,
+.battery-widget .widget-container,
+.volume-widget .widget-container,
+.notification-widget .widget-container {
+    min-width: 0;
+}
+
+.traffic-widget .widget-container {
+    min-width: 228px;
+    max-width: 228px;
+    justify-content: flex-end;
+}
+
+.memory-widget .label,
+.cpu-widget .label,
+.traffic-widget .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.memory-widget .label span,
+.cpu-widget .label span,
+.traffic-widget .label span {
+    color: var(--accent-dim);
+    font-size: 12px;
+    margin-right: 1px;
+}
+
+.memory-widget .label {
+    color: var(--ok);
+    min-width: 11ch;
+}
+
+.cpu-widget .label {
+    color: var(--warn);
+    min-width: 5ch;
+}
+
+.traffic-widget .label {
+    color: #93c5fd;
+    min-width: 34ch;
+    max-width: 34ch;
+    width: 34ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.volume-widget .label span,
+.wifi-widget .label,
+.wifi-widget .icon,
+.bluetooth-widget .label span,
+.battery-widget .label span,
+.battery-widget .icon,
+.notification-widget .label span,
+.notification-widget .icon {
+    color: var(--fg);
+    font-size: 12px;
+}
+
+.notification-widget .icon.new-notification,
+.notification-widget .label.new-notification {
+    color: var(--accent);
+}
+
+.wifi-widget .label,
+.wifi-widget .icon {
+    font-family: "Segoe Fluent Icons";
+    font-weight: 400;
+}
+
+.battery-widget .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 5ch;
+}
+
+.battery-widget .icon.status-critical,
+.battery-widget .label.status-critical {
+    color: var(--hot);
+}
+
+.battery-widget .icon.status-low {
+    color: var(--warn);
+}
+
+.battery-widget .icon.status-medium,
+.battery-widget .icon.status-high,
+.battery-widget .icon.status-full {
+    color: var(--ok);
+}
+
+.battery-widget .icon.status-charging,
+.battery-widget .label.status-charging {
+    color: #93c5fd;
+}
+
+.power-menu-widget {
+    min-width: 0;
+}
+
+.power-menu-widget .widget-container {
+    min-width: 0;
+}
+
+.power-menu-widget span {
+    color: var(--dim);
+    font-size: 12px;
+}
+
+.control-center-widget span {
+    color: var(--dim);
+    font-size: 12px;
+}
+
+.control-center-widget:hover span {
+    color: var(--fg);
+}
+
+.control-center-menu,
+.media-menu,
+.memory-popup,
+.cpu-popup,
+.traffic-menu,
+.audio-menu,
+.mic-menu,
+.brightness-menu,
+.pomodoro-menu,
+.wifi-menu,
+.bluetooth-menu,
+.power-menu-popup,
+.power-menu-compact,
+.clock-popup.calendar,
+.clock-popup.alarm,
+.clock-popup.timer,
+.systray-popup,
+.active-alarm-window,
+.preview {
+    background-color: var(--popup-bg);
+    border: 1px solid var(--popup-border);
+    border-radius: var(--popup-radius);
+}
+
+.context-menu,
+.context-menu.dark,
+.control-center-menu .context-menu {
+    background-color: var(--popup-bg);
+    border: 1px solid var(--popup-border);
+    border-radius: 14px;
+    padding: 6px;
+    font-family: var(--ui);
+    font-size: 12px;
+    color: var(--fg);
+}
+
+.context-menu::item,
+.context-menu .menu-checkbox,
+.control-center-menu .context-menu::item {
+    background-color: transparent;
+    padding: 8px 12px;
+    margin: 2px 6px;
+    border-radius: 8px;
+}
+
+.context-menu::item:selected,
+.context-menu .menu-checkbox:hover,
+.control-center-menu .context-menu::item:selected {
+    background-color: var(--popup-hover);
+    color: var(--fg);
+}
+
+.context-menu::separator,
+.control-center-menu .context-menu::separator {
+    height: 1px;
+    background-color: var(--line);
+    margin: 6px 10px;
+}
+
+.control-center-menu {
+    min-width: 420px;
+}
+
+.control-center-menu .section {
+    background: transparent;
+    margin: 0;
+    padding: 18px 20px;
+    border: none;
+}
+
+.control-center-menu .section.system-controls {
+    padding: 20px 20px 8px 20px;
+}
+
+.control-center-menu .section.quick-actions {
+    padding: 8px 16px 16px 16px;
+}
+
+.control-center-menu .section.sliders {
+    padding: 8px 20px 16px 20px;
+}
+
+.control-center-menu .section.power {
+    padding: 8px 16px 20px 16px;
+}
+
+.control-center-menu .section.media {
+    padding: 20px;
+    margin: 8px 12px 0 12px;
+    background: var(--popup-card);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.control-center-menu .section.system-controls .button,
+.control-center-menu .section.quick-actions .button .icon,
+.control-center-menu .section.sliders .slider .icon,
+.control-center-menu .section.sliders .slider .source-selector,
+.control-center-menu .section.power .plan-name .icon,
+.control-center-menu .section.power .mode-name .icon,
+.control-center-menu .section.media .button {
+    font-family: "Segoe Fluent Icons";
+    font-weight: 400;
+}
+
+.control-center-menu .section.system-controls .button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    min-height: 40px;
+    max-height: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    font-size: 15px;
+    color: var(--fg);
+}
+
+.control-center-menu .section.system-controls .button:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+.control-center-menu .section.quick-actions .button {
+    margin: 6px;
+}
+
+.control-center-menu .section.quick-actions .button .icon {
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    min-height: 68px;
+    border-radius: 18px;
+    color: var(--fg);
+}
+
+.control-center-menu .section.quick-actions .button .icon:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.control-center-menu .section.quick-actions .button.active .icon {
+    background-color: #5b9fd4;
+    border: 1px solid #5b9fd4;
+    color: #101014;
+}
+
+.control-center-menu .section.quick-actions .button.active .icon:hover {
+    background-color: #6aaee3;
+    border: 1px solid #6aaee3;
+}
+
+.control-center-menu .section.quick-actions .button .title {
+    font-size: 11px;
+    margin: 8px 0 4px 0;
+    padding: 0;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.control-center-menu .section.sliders .slider {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    min-height: 52px;
+    margin: 0 0 10px 0;
+    padding: 0 8px;
+}
+
+.control-center-menu .section.sliders .slider:last-child {
+    margin-bottom: 0;
+}
+
+.control-center-menu .section.sliders .slider .icon {
+    font-size: 17px;
+    color: var(--fg);
+    min-width: 40px;
+}
+
+.control-center-menu .section.sliders .slider .value {
+    min-width: 42px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.control-center-menu .section.sliders .slider .source-selector {
+    font-size: 12px;
+    color: var(--dim);
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: transparent;
+    margin-left: 6px;
+}
+
+.control-center-menu .section.sliders .slider .source-selector:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-center-menu .section.power .plan-name,
+.control-center-menu .section.power .mode-name {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    min-height: 56px;
+    margin: 6px;
+    padding: 10px 14px;
+}
+
+.control-center-menu .section.power .mode-name {
+    display: none;
+}
+
+.control-center-menu .section.power .plan-name {
+    margin: 6px 0;
+}
+
+.control-center-menu .section.power .plan-name:hover,
+.control-center-menu .section.power .mode-name:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.control-center-menu .section.power .plan-name .title,
+.control-center-menu .section.power .mode-name .title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--dim);
+}
+
+.control-center-menu .section.power .plan-name .subtext,
+.control-center-menu .section.power .mode-name .subtext {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--fg);
+}
+
+.control-center-menu .section.power .plan-name .icon,
+.control-center-menu .section.power .mode-name .icon {
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.control-center-menu .section.media .track-info {
+    padding-left: 14px;
+}
+
+.control-center-menu .section.media .title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--fg);
+}
+
+.control-center-menu .section.media .subtext {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dim);
+    margin-top: 2px;
+}
+
+.control-center-menu .section.media .button {
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.08);
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 20px;
+    margin: 0 0 0 8px;
+    color: var(--fg);
+}
+
+.control-center-menu .section.media .button:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.control-center-menu .section.media .button.play {
+    min-width: 44px;
+    min-height: 44px;
+    max-width: 44px;
+    max-height: 44px;
+    border-radius: 22px;
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.control-center-menu .section.media .button.disabled,
+.control-center-menu .section.media .button.disabled:hover {
+    opacity: 0.35;
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.control-center-menu .context-menu::indicator:checked {
+    width: 4px;
+    height: 14px;
+    background-color: var(--accent);
+    border-radius: 2px;
+}
+
+.power-menu-widget:hover span {
+    color: var(--hot);
+}
+
+.systray {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0 0 0 3px;
+    border-left: 1px solid var(--line);
+    min-width: 0;
+}
+
+.systray .button {
+    border-radius: 4px;
+    padding: 1px;
+}
+
+.systray .button:hover {
+    background: var(--hover);
+}
+
+.systray-popup {
+    padding: 8px;
+}
+
+.systray-popup .button {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.systray-popup .button:hover {
+    background-color: var(--hover);
+}
+
+.tooltip {
+    background-color: var(--popup-bg);
+    border: 1px solid var(--popup-border);
+    border-radius: 12px;
+    color: var(--fg);
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: var(--ui);
+    font-weight: 600;
+}
+
+.clock-popup.calendar {
+    min-width: 860px;
+    max-width: 860px;
+    padding: 12px 16px;
+}
+
+.clock-popup.calendar .calendar-layout {
+    margin: 0;
+    padding: 0;
+}
+
+.clock-popup.calendar QCalendarWidget {
+    background-color: transparent;
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 268px;
+    max-height: 268px;
+    margin: 0;
+    padding: 0;
+}
+
+.clock-popup.calendar .calendar-table {
+    background-color: transparent;
+    alternate-background-color: transparent;
+    gridline-color: transparent;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    min-width: 280px;
+    max-width: 280px;
+}
+
+.clock-popup.calendar .calendar-table QHeaderView::section {
+    background-color: transparent;
+    color: var(--dim);
+    font-family: var(--ui);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 0 8px;
+    border: none;
+    min-width: 36px;
+    max-width: 36px;
+}
+
+.clock-popup.calendar .calendar-table::item {
+    background-color: transparent;
+    color: var(--muted);
+    font-family: var(--ui);
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    min-width: 36px;
+    max-width: 36px;
+    min-height: 32px;
+    max-height: 32px;
+}
+
+.clock-popup.calendar .calendar-table::item:selected {
+    color: #18181b;
+    font-weight: 700;
+    background-color: var(--accent);
+    border-radius: 16px;
+}
+
+.clock-popup.calendar .day-label {
+    margin-top: 12px;
+    margin-bottom: 2px;
+}
+
+.clock-popup.calendar .day-label,
+.clock-popup.calendar .month-label,
+.clock-popup.calendar .year-label {
+    font-family: var(--display);
+    font-size: 14px;
+    color: var(--fg);
+    font-weight: 600;
+    min-width: 168px;
+    max-width: 168px;
+}
+
+.clock-popup.calendar .month-label,
+.clock-popup.calendar .year-label {
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.clock-popup.calendar .date-label {
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--fg);
+    font-family: var(--display);
+    margin: 4px 0 8px;
+    min-width: 168px;
+    max-width: 168px;
+    line-height: 1;
+}
+
+.clock-popup.calendar .week-label {
+    color: var(--dim);
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 168px;
+    max-width: 168px;
+}
+
+.clock-popup.calendar .holiday-label {
+    color: var(--hot);
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 168px;
+    max-width: 168px;
+    padding: 0 8px;
+}
+
+.clock-popup.calendar .extended-container {
+    border-left: 1px solid var(--line);
+    background-color: transparent;
+    padding: 8px 0 8px 20px;
+    min-width: 260px;
+    max-width: 280px;
+}
+
+.clock-popup.calendar .extended-container .button.alarm.small,
+.clock-popup.calendar .extended-container .button.timer.small {
+    min-width: 0;
+    min-height: 32px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background-color: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--fg);
+}
+
+.clock-popup.calendar .extended-container .button.alarm.small:hover,
+.clock-popup.calendar .extended-container .button.timer.small:hover {
+    background-color: var(--popup-hover);
+}
+
+.clock-popup.calendar .extended-container .upcoming-events-header {
+    font-size: 12px;
+    font-family: var(--ui);
+    font-weight: 700;
+    margin: 12px 0 8px;
+    color: var(--muted);
+}
+
+.clock-popup.calendar .extended-container .upcoming-events-item {
+    font-size: 12px;
+    font-family: var(--ui);
+    font-weight: 600;
+    padding: 6px 0;
+    color: var(--dim);
+    min-width: 0;
+}
+
+.clock-popup.calendar .extended-container .upcoming-events-item:hover {
+    color: var(--fg);
+}
+
+.memory-popup {
+    min-width: 360px;
+    padding: 12px;
+}
+
+.memory-popup .header .text {
+    color: var(--fg);
+    font-family: var(--ui);
+}
+
+.memory-popup .memory-graph {
+    color: var(--accent);
+}
+
+.power-menu-compact {
+    min-width: 220px;
+    padding: 8px;
+}
+
+.power-menu-compact .buttons {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    margin: 4px;
+    padding: 4px;
+}
+
+.power-menu-compact .button {
+    padding: 10px 14px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    margin: 2px 4px;
+}
+
+.power-menu-compact .button.hover {
+    background: var(--popup-hover);
+}
+
+.power-menu-compact .button .icon {
+    font-family: "Segoe Fluent Icons";
+    font-size: 14px;
+    color: var(--dim);
+    min-width: 22px;
+}
+
+.power-menu-compact .button .label {
+    font-family: var(--ui);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.power-menu-compact .button.hover .icon,
+.power-menu-compact .button.hover .label {
+    color: var(--fg);
+}
+
+.power-menu-compact .button.shutdown .icon,
+.power-menu-compact .button.shutdown.hover .icon {
+    color: var(--hot);
+}
+
+.power-menu-compact .button.restart .icon {
+    color: var(--warn);
+}
+
+.power-menu-popup .button {
+    background-color: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    color: var(--fg);
+}
+
+.power-menu-popup .button.hover {
+    background-color: var(--popup-hover);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.power-menu-popup .button .icon {
+    color: var(--dim);
+}
+
+.traffic-menu,
+.audio-menu {
+    padding: 12px;
+    min-width: 280px;
+}
+
+.pomodoro-menu {
+    min-width: 260px;
+    padding: 16px 18px 14px;
+    font-family: var(--ui);
+}
+
+.pomodoro-menu .header {
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    max-height: none;
+    padding: 0 0 10px;
+}
+
+.pomodoro-menu .status {
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    padding: 2px 0 4px;
+}
+
+.pomodoro-menu .session {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--dim);
+    padding: 0 0 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 12px;
+}
+
+.pomodoro-menu .button {
+    background-color: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    color: var(--muted);
+    font-family: var(--ui);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 9px 16px;
+    margin: 2px 4px;
+    min-width: 84px;
+}
+
+.pomodoro-menu .button.start {
+    background-color: rgba(196, 181, 253, 0.12);
+    border-color: rgba(196, 181, 253, 0.24);
+    color: var(--accent);
+}
+
+.pomodoro-menu .button.pause {
+    background-color: rgba(134, 239, 172, 0.12);
+    border-color: rgba(134, 239, 172, 0.24);
+    color: var(--ok);
+}
+
+.pomodoro-menu .button.reset {
+    color: var(--dim);
+}
+
+.pomodoro-menu .button:hover {
+    background-color: var(--popup-hover);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--fg);
+}
+
+.pomodoro-menu .button.start:hover {
+    background-color: rgba(196, 181, 253, 0.18);
+    color: #ddd6fe;
+}
+
+.pomodoro-menu .button.pause:hover {
+    background-color: rgba(134, 239, 172, 0.18);
+    color: #bbf7d0;
+}
+
+.pomodoro-menu .button:pressed {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.wifi-menu,
+.bluetooth-menu {
+    padding: 14px 16px;
+    min-width: 360px;
+    min-height: 520px;
+    max-height: 640px;
+    font-family: var(--ui);
+}
+
+.wifi-menu .header,
+.wifi-menu .wifi-list,
+.wifi-menu .footer,
+.bluetooth-menu .header,
+.bluetooth-menu .bluetooth-list,
+.bluetooth-menu .section,
+.bluetooth-menu .footer {
+    background-color: transparent;
+    border: none;
+}
+
+.wifi-menu .wifi-list {
+    min-height: 380px;
+    max-height: 480px;
+    margin: 0;
+    padding: 0;
+}
+
+.bluetooth-menu .bluetooth-list {
+    min-height: 380px;
+    max-height: 480px;
+    margin: 0;
+    padding: 0;
+}
+
+.bluetooth-menu .bluetooth-item {
+    min-height: 44px;
+}
+
+.traffic-menu .header,
+.audio-menu .device,
+.audio-menu .apps-container {
+    color: var(--fg);
+    font-family: var(--ui);
+}
+
+.audio-menu .device {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 8px 10px;
+    margin: 4px 0;
+}
+
+.audio-menu .device:hover {
+    background: var(--popup-hover);
+}
+
+.traffic-menu .header .title,
+.traffic-menu .download-speed-value,
+.traffic-menu .upload-speed-value {
+    color: var(--fg);
+    font-family: var(--ui);
+}
+
+.wifi-menu .progress-bar,
+.bluetooth-menu .header .progress-bar {
+    max-height: 2px;
+    min-height: 2px;
+    color: var(--accent-dim);
+}
+
+.wifi-menu .header,
+.bluetooth-menu .header {
+    color: var(--fg);
+    font-family: var(--ui);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 0 12px;
+    margin: 0 0 10px;
+    border-bottom: 1px solid var(--line);
+    background-color: transparent;
+}
+
+.wifi-menu .header .title,
+.bluetooth-menu .header .title {
+    color: var(--fg);
+}
+
+.bluetooth-menu .header .power-button {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    color: var(--fg);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+}
+
+.bluetooth-menu .header .power-button:checked {
+    background: var(--popup-hover);
+    color: var(--accent);
+}
+
+.wifi-menu .error-message,
+.bluetooth-menu .error-message {
+    background: rgba(252, 165, 165, 0.12);
+    border: 1px solid rgba(252, 165, 165, 0.2);
+    border-radius: 12px;
+    color: var(--hot);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.wifi-menu .wifi-list,
+.bluetooth-menu .bluetooth-list,
+.bluetooth-menu .section {
+    background-color: transparent;
+}
+
+.wifi-menu .wifi-item[active=true] {
+    min-height: 88px;
+    padding: 10px 12px;
+}
+
+.bluetooth-menu .section-title {
+    color: var(--dim);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 2px 4px;
+}
+
+.wifi-menu .wifi-item,
+.bluetooth-menu .bluetooth-item {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 8px 10px;
+    margin: 4px 0;
+    min-height: 36px;
+}
+
+.wifi-menu .wifi-item:hover,
+.bluetooth-menu .bluetooth-item:hover {
+    background: var(--popup-hover);
+}
+
+.wifi-menu .wifi-item[active=true],
+.bluetooth-menu .bluetooth-item.active {
+    background: var(--popup-hover);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.wifi-menu .wifi-item .icon,
+.bluetooth-menu .bluetooth-item .icon,
+.bluetooth-menu .bluetooth-item .battery-icon,
+.wifi-menu .footer .refresh-icon,
+.bluetooth-menu .footer .scan-icon {
+    font-family: "Segoe Fluent Icons";
+    font-weight: 400;
+}
+
+.wifi-menu .wifi-item .icon {
+    font-size: 18px;
+    margin-right: 10px;
+    color: var(--fg);
+}
+
+.bluetooth-menu .bluetooth-item .icon {
+    font-size: 16px;
+    margin-right: 10px;
+    color: var(--fg);
+}
+
+.wifi-menu .wifi-item .name,
+.wifi-menu .wifi-item .status,
+.wifi-menu .wifi-item .strength,
+.wifi-menu .wifi-item .password,
+.wifi-menu .footer,
+.wifi-menu .footer .settings-button,
+.bluetooth-menu .bluetooth-item .name,
+.bluetooth-menu .bluetooth-item .status,
+.bluetooth-menu .bluetooth-item .battery,
+.bluetooth-menu .footer,
+.bluetooth-menu .footer .settings-button {
+    font-family: var(--ui);
+    color: var(--fg);
+}
+
+.wifi-menu .wifi-item .name,
+.bluetooth-menu .bluetooth-item .name {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.wifi-menu .wifi-item .password {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.wifi-menu .wifi-item .status,
+.wifi-menu .wifi-item .strength,
+.bluetooth-menu .bluetooth-item .status,
+.bluetooth-menu .bluetooth-item .battery {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.wifi-menu .wifi-item .controls-container,
+.bluetooth-menu .bluetooth-item .controls-container {
+    padding-top: 8px;
+}
+
+.wifi-menu .wifi-item .connect,
+.bluetooth-menu .bluetooth-item .connect {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    color: var(--fg);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+}
+
+.wifi-menu .wifi-item .connect:hover,
+.bluetooth-menu .bluetooth-item .connect:hover {
+    background: var(--popup-hover);
+}
+
+.wifi-menu .footer,
+.bluetooth-menu .footer {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.wifi-menu .footer .settings-button,
+.bluetooth-menu .footer .settings-button {
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.wifi-menu .footer .refresh-icon,
+.bluetooth-menu .footer .scan-icon {
+    background: var(--popup-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    min-width: 28px;
+    min-height: 28px;
+    color: var(--fg);
+}
+
+.wifi-menu .footer .refresh-icon:hover,
+.bluetooth-menu .footer .scan-icon:hover {
+    background: var(--popup-hover);
+}
+
+.bluetooth-widget .icon.bt-off,
+.bluetooth-widget .label.bt-off {
+    color: var(--dim);
+}
+
+.bluetooth-widget .icon.bt-on,
+.bluetooth-widget .label.bt-on {
+    color: #93c5fd;
+}
+
+.bluetooth-widget .icon.bt-connected,
+.bluetooth-widget .label.bt-connected {
+    color: var(--ok);
+}
+
+.media-menu {
+    min-width: 420px;
+    max-width: 420px;
+    padding: 8px;
+}
+
+.media-menu .no-media {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 24px;
+}
+
+.media-menu .thumbnail {
+    margin: 12px 0 0 12px;
+}
+
+.media-menu .title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--fg);
+    margin: 14px 16px 2px 14px;
+    font-family: var(--ui);
+}
+
+.media-menu .artist {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dim);
+    margin: 0 16px 8px 14px;
+    font-family: var(--ui);
+}
+
+.media-menu .source {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--fg);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    margin: 0 14px 12px 14px;
+    font-family: var(--ui);
+}
+
+.media-menu .btn {
+    font-family: "Segoe Fluent Icons";
+    font-size: 15px;
+    font-weight: 400;
+    margin: 8px 4px 12px 4px;
+    min-width: 42px;
+    max-width: 42px;
+    min-height: 42px;
+    max-height: 42px;
+    border-radius: 21px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--fg);
+}
+
+.media-menu .btn.prev {
+    margin-left: 12px;
+}
+
+.media-menu .btn.play {
+    min-width: 48px;
+    max-width: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    border-radius: 24px;
+    background-color: rgba(255, 255, 255, 0.14);
+    font-size: 18px;
+}
+
+.media-menu .btn:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.media-menu .btn.disabled,
+.media-menu .btn.disabled:hover {
+    color: #52525b;
+    background-color: transparent;
+}
+
+.media-menu .media-timeline-container {
+    margin: 0 14px 12px 14px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+}
+
+.media-menu .playback-time {
+    font-size: 11px;
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--dim);
+    margin-top: 0;
+    min-width: 44px;
+}
+
+.media-menu .progress-slider {
+    height: 8px;
+    margin: 0 8px;
+    border-radius: 4px;
+}
+
+.media-menu .progress-slider::groove {
+    background: rgba(255, 255, 255, 0.12);
+    height: 4px;
+    border-radius: 4px;
+}
+
+.media-menu .progress-slider::groove:hover {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.media-menu .progress-slider::sub-page {
+    background: var(--accent);
+    border-radius: 4px;
+    height: 4px;
+}
+
+.media-menu .progress-slider::handle {
+    width: 12px;
+    height: 12px;
+    margin: -4px 0;
+    border-radius: 6px;
+    background: var(--fg);
+}
+
+.media-menu .app-volume-container {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 12px;
+    border-radius: 14px;
+    margin: 0 14px 14px 14px;
+}
+
+.media-menu .app-volume-container .volume-slider::groove {
+    background: rgba(255, 255, 255, 0.12);
+    width: 4px;
+    border-radius: 4px;
+}
+
+.media-menu .app-volume-container .volume-slider::sub-page {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.media-menu .app-volume-container .volume-slider::groove:hover {
+    width: 6px;
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.media-menu .app-volume-container .mute-button,
+.media-menu .app-volume-container .unmute-button {
+    font-size: 15px;
+    color: var(--fg);
+    font-family: "Segoe Fluent Icons";
+    margin-top: 2px;
+}
