@@ -2,15 +2,9 @@
 
 if (-not (Get-Command lwm -ErrorAction SilentlyContinue)) { exit 1 }
 
-$null = lwm reload 2>&1
+$null = Invoke-Lwm reload 2>&1
 Start-Sleep -Milliseconds 250
 
-foreach ($w in Get-ManagedWindows) {
-    if (Test-RetileExe $w.exe -or Test-LayoutRepairExe $w.exe) {
-        Repair-TiledWindow $w.hwnd $w.exe $w.title
-    }
-}
+Repair-OverflowingWindows | Out-Null
 
-$null = lwm refresh 2>&1
-Start-Sleep -Milliseconds 200
-$null = lwm center-column 2>&1
+$null = Invoke-Lwm refresh 2>&1

@@ -18,8 +18,12 @@ using System.Windows.Forms;
 public class LwmBarHotkeys : Form {
     const int WM_HOTKEY = 0x0312;
     const int WH_MOUSE_LL = 14;
+    const int WH_KEYBOARD_LL = 13;
     const int WM_MOUSEWHEEL = 0x020A;
     const int WM_MOUSEHWHEEL = 0x020E;
+    const int WM_KEYDOWN = 0x0100;
+    const int WM_SYSKEYDOWN = 0x0104;
+    const int VK_R = 0x52;
     const int LLMHF_INJECTED = 0x01;
     const int GESTURE_THRESHOLD = 360;
     const int GESTURE_TIMEOUT_MS = 300;
@@ -29,10 +33,13 @@ public class LwmBarHotkeys : Form {
     static readonly string LogFile = @"$($LogFile.Replace('\','\\'))";
     bool registered;
     IntPtr mouseHook = IntPtr.Zero;
+    IntPtr keyboardHook = IntPtr.Zero;
     LowLevelMouseProc mouseProc;
+    LowLevelKeyboardProc keyboardProc;
     int swipeAccumX, swipeAccumY;
     long swipeLastEventMs;
     long cooldownUntilMs;
+    long retileCooldownUntilMs;
     readonly Stopwatch clock = Stopwatch.StartNew();
     [StructLayout(LayoutKind.Sequential)]
     struct POINT { public int x, y; }
@@ -45,9 +52,12 @@ public class LwmBarHotkeys : Form {
         public IntPtr dwExtraInfo;
     }
     delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+    delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
     [DllImport("user32.dll")] static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+    [DllImport("user32.dll")] static extern short GetAsyncKeyState(int vKey);
     [DllImport("user32.dll")] static extern bool UnregisterHotKey(IntPtr hWnd, int id);
     [DllImport("user32.dll")] static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
+    [DllImport("user32.dll", EntryPoint = "SetWindowsHookEx")] static extern IntPtr SetKeyboardHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
     [DllImport("user32.dll")] static extern bool UnhookWindowsHookEx(IntPtr hhk);
     [DllImport("user32.dll")] static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
     void Log(string msg) {
@@ -60,7 +70,6 @@ public class LwmBarHotkeys : Form {
         if (!RegisterHotKey(Handle, 2, 3, 0x28)) Log("fail Down");
         if (!RegisterHotKey(Handle, 3, 3, 0x4B)) Log("fail K");
         if (!RegisterHotKey(Handle, 4, 3, 0x4A)) Log("fail J");
-        if (!RegisterHotKey(Handle, 5, 3, 0x52)) Log("fail R");
         if (!RegisterHotKey(Handle, 6, 7, 0x26)) Log("fail Shift+Up");
         if (!RegisterHotKey(Handle, 7, 7, 0x28)) Log("fail Shift+Down");
         if (!RegisterHotKey(Handle, 8, 7, 0x4B)) Log("fail Shift+K");
@@ -72,6 +81,37 @@ public class LwmBarHotkeys : Form {
         mouseHook = SetWindowsHookEx(WH_MOUSE_LL, mouseProc, IntPtr.Zero, 0);
         if (mouseHook == IntPtr.Zero) Log("fail gesture hook");
         else Log("gesture hook registered");
+    }
+    void RegisterKeyboardHook() {
+        keyboardProc = KeyboardHookProc;
+        keyboardHook = SetKeyboardHookEx(WH_KEYBOARD_LL, keyboardProc, IntPtr.Zero, 0);
+        if (keyboardHook == IntPtr.Zero) Log("fail keyboard hook");
+        else Log("keyboard hook registered");
+    }
+    void DispatchRetile() {
+        long now = NowMs();
+        if (now < retileCooldownUntilMs) return;
+        retileCooldownUntilMs = now + 500;
+        Log("retile hotkey");
+        RunScript(RetileScript, "");
+    }
+    IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam) {
+        if (nCode >= 0) {
+            int msg = wParam.ToInt32();
+            if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) {
+                int vk = Marshal.ReadInt32(lParam);
+                if (vk == VK_R) {
+                    bool ctrl = (GetAsyncKeyState(0x11) & 0x8000) != 0;
+                    bool alt = (GetAsyncKeyState(0x12) & 0x8000) != 0;
+                    bool shift = (GetAsyncKeyState(0x10) & 0x8000) != 0;
+                    if (ctrl && alt && !shift) {
+                        DispatchRetile();
+                        return (IntPtr)1;
+                    }
+                }
+            }
+        }
+        return CallNextHookEx(keyboardHook, nCode, wParam, lParam);
     }
     long NowMs() { return clock.ElapsedMilliseconds; }
     IntPtr MouseHookProc(int nCode, IntPtr wParam, IntPtr lParam) {
@@ -130,9 +170,14 @@ public class LwmBarHotkeys : Form {
         base.OnHandleCreated(e);
         RegisterKeys();
         RegisterGestures();
+        RegisterKeyboardHook();
     }
     protected override void OnFormClosed(FormClosedEventArgs e) {
         for (int id = 1; id <= 9; id++) UnregisterHotKey(Handle, id);
+        if (keyboardHook != IntPtr.Zero) {
+            UnhookWindowsHookEx(keyboardHook);
+            keyboardHook = IntPtr.Zero;
+        }
         if (mouseHook != IntPtr.Zero) {
             UnhookWindowsHookEx(mouseHook);
             mouseHook = IntPtr.Zero;
@@ -140,17 +185,20 @@ public class LwmBarHotkeys : Form {
         base.OnFormClosed(e);
     }
     void RunScript(string path, string args) {
-        Process.Start(new ProcessStartInfo {
+        string lwmBin = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\LeopardWM\\bin";
+        string pathEnv = Environment.GetEnvironmentVariable("PATH") ?? "";
+        var psi = new ProcessStartInfo {
             FileName = "powershell.exe",
             Arguments = "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File \"" + path + "\"" + args,
             UseShellExecute = false,
             CreateNoWindow = true
-        });
+        };
+        psi.Environment["PATH"] = lwmBin + ";" + pathEnv;
+        Process.Start(psi);
     }
     protected override void WndProc(ref Message m) {
         if (m.Msg == WM_HOTKEY) {
             int id = m.WParam.ToInt32();
-            if (id == 5) { RunScript(RetileScript, ""); return; }
             bool move = id >= 6;
             bool up = id == 1 || id == 3 || id == 6 || id == 8;
             string args = " -Direction " + (up ? "up" : "down");

@@ -32,7 +32,7 @@ hide_offscreen_taskbar_buttons = true
 workspace_edge_wrap = false
 mouse_follows_focus = false
 fullscreen_follows_focus = true
-swap_chain_ghost_animation = true
+swap_chain_ghost_animation = false
 
 [hotkeys]
 scroll_modifier = "Ctrl+Alt"

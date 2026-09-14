@@ -16,7 +16,7 @@ Waybar-style top bar wired to LeopardWM via `lwm subscribe`.
 | `lwm-cycle-window.ps1` | Bar title click → cycle windows on current strip |
 | `refresh-workarea.ps1` | Hide taskbar + force full-screen work area (runs on login) |
 | `sync-outer-gap.ps1` | Reload LWM config + refresh (applies `outer_gap_top` from config.toml) |
-| `repair-all-tiled.ps1` | Reload + repair Electron/chromium tiles (Cursor, Antigravity, Zed) |
+| `repair-all-tiled.ps1` | Reload + heal Chromium/Electron tiles that overflow the viewport (Discord, Cursor, Zed, …) |
 | `hide-taskbar.ps1` | Same as refresh-workarea + reload LWM config |
 | `show-taskbar.ps1` | Restore Windows taskbar + work area |
 
@@ -69,6 +69,6 @@ yasbc stop
 
 ## Troubleshooting
 
-- Bar covers tiles / gap under bar / misaligned windows → run `repair-all-tiled.ps1` or focus window + `Ctrl+Alt+R`
+- Bar covers tiles / gap under bar / misaligned windows → bridge auto-heals Chromium overflow after scroll (400ms debounce); manual: `repair-all-tiled.ps1` or focus window + `Ctrl+Alt+R` (short beep = hotkey fired; see `retile.log`)
 - Stale title/column → check `status.json`; restart bridge
 - Systray missing icons → restart YASB after those apps; some apps ignore `TaskbarCreated` (NVIDIA App)

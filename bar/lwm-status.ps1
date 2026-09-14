@@ -6,6 +6,9 @@ New-Item -ItemType Directory -Force -Path $BarDir | Out-Null
 
 $script:SeenHwnds = [System.Collections.Generic.HashSet[int64]]::new()
 $script:Placing = $false
+$script:OverflowHealing = $false
+$script:OverflowScanDueAt = $null
+$script:LastOverflowHeal = [datetime]::MinValue
 
 $StripNames = @("browser", "main", "misc")
 
@@ -128,6 +131,25 @@ function Sync-FromQuery {
     Try-FlushSessionLayoutSave
 }
 
+function Request-OverflowHeal {
+    $script:OverflowScanDueAt = [datetime]::UtcNow.AddMilliseconds(400)
+}
+
+function Try-OverflowHeal {
+    if (-not $script:OverflowScanDueAt) { return }
+    if ([datetime]::UtcNow -lt $script:OverflowScanDueAt) { return }
+    $script:OverflowScanDueAt = $null
+    if ($script:OverflowHealing) { return }
+    if (($script:LastOverflowHeal -ne [datetime]::MinValue) -and (([datetime]::UtcNow - $script:LastOverflowHeal).TotalSeconds -lt 2)) { return }
+    $script:OverflowHealing = $true
+    try {
+        Repair-OverflowingWindows | Out-Null
+        $script:LastOverflowHeal = [datetime]::UtcNow
+    } finally {
+        $script:OverflowHealing = $false
+    }
+}
+
 function Place-NewWindows {
     if ($script:Placing) { return }
     $moved = $false
@@ -136,9 +158,6 @@ function Place-NewWindows {
         foreach ($item in @($state.windows_list)) {
             if (-not $item.hwnd) { continue }
             if (-not $script:SeenHwnds.Add([int64]$item.hwnd)) { continue }
-            if (Test-RetileExe $item.exe -or Test-LayoutRepairExe $item.exe) {
-                Repair-TiledWindow ([int64]$item.hwnd) $item.exe $item.title
-            }
             if (Test-StripClassified $item.exe $item.title) { continue }
             if ([int]$state.workspace_idx -eq 2) { continue }
             Move-HwndToStrip ([int64]$item.hwnd) 2 $item.exe
@@ -161,6 +180,7 @@ function Apply-Event($ev) {
             if ($ev.name) { $state.workspace = $ev.name }
             if ($null -ne $ev.new_index) { $state.workspace_idx = [int]$ev.new_index + 1 }
             Set-WorkspaceBar
+            Request-OverflowHeal
         }
         "focused_window_changed" {
             if ($ev.title) { $state.title = $ev.title }
@@ -174,11 +194,13 @@ function Apply-Event($ev) {
             foreach ($col in $ev.columns) { $count += @($col.window_ids).Count }
             $state.windows = $count
             Save-SessionLayout
+            Request-OverflowHeal
         }
         "heartbeat" { Sync-FromQuery }
     }
     Set-WindowsList
     Place-NewWindows
+    Try-OverflowHeal
     Try-FlushSessionLayoutSave
 }
 
